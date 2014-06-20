@@ -1,0 +1,4 @@
+'''
+Problem:
+Compress a string.
+'''
