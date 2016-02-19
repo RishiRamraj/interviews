@@ -62,7 +62,7 @@ def subarray(target):
                 max = sum
                 result = (start, end)
                 continue
-                
+
             # Check for a hit.
             if sum > max:
                 max = sum
