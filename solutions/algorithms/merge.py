@@ -3,41 +3,53 @@ Problem:
 Implement a merge sort.
 '''
 
-import itertools
 
-
-def merge(input):
+def merge(target):
     '''
-    Sorts from least to greatest.
+    Recursively sort target.
     '''
-    length = len(input)
-
     # Base case.
-    if length <= 1:
-        yield from iter(input)
-        return
+    if len(target) == 1:
+        return target
 
-    # Sort left and right.
-    half = int(length/2)
-    left = merge(input[:half]) 
-    right = merge(input[half:]) 
+    # Split and sort the sublists.
+    mid = len(target)/2
+    left = merge(target[:mid])
+    right = merge(target[mid:])
 
-    # Merge.
-    for a, b in itertools.zip_longest(left, right):
-        if a is None:
-            yield b
+    # Merge and return.
+    result = []
+    a, b = None, None
+    while True:
+        # Get a and b.
+        if a is None and len(left):
+            a = left.pop(0)
+
+        if b is None and len(right):
+            b = right.pop(0)
+
+        # Keep going until nothing left.
+        if a is None and b is None:
+            break
+
+        elif a is None:
+            result.append(b)
+            b = None
 
         elif b is None:
-            yield a
+            result.append(a)
+            a = None
 
         elif a < b:
-            yield a
-            yield b
+            result.append(a)
+            a = None
 
         else:
-            yield b
-            yield a
+            result.append(b)
+            b = None
+
+    return result
 
 
-test = [3, 5, 9, 2, -4]
-print(list(merge(test)))
+test = [-1, 5, 4, 3, 2, 1]
+print merge(test)
